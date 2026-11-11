@@ -1,0 +1,14 @@
+{
+  "listings": [
+    {
+      "source_url": "https://website-cua-ban.vn/tin/can-01",
+      "title": "Tiêu đề tin bất động sản",
+      "description": "Mô tả từ dữ liệu thật của bạn. Thay các URL ví dụ trước khi nhập.",
+      "price_text": "Giá theo nguồn",
+      "location": "Vị trí theo nguồn",
+      "area_m2": 65,
+      "media_urls": ["https://website-cua-ban.vn/anh/can-01.jpg"],
+      "status": "published"
+    }
+  ]
+}

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revoland - Facebook Group Auto-Poster v2.0</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    [class^="status-"] {display:inline-block;padding:4px 9px;border:1px solid;border-radius:12px;font-size:12px;font-weight:600;}
+    .status-posted {background:#dcfce7;color:#166534;border-color:#86efac;}
+    .status-pending {background:#fef3c7;color:#92400e;border-color:#fcd34d;}
+    .status-failed {background:#ffe4e6;color:#9f1239;border-color:#fda4af;}
+    .status-skipped {background:#dbeafe;color:#1e40af;border-color:#93c5fd;}
+    .status-action {background:#ffedd5;color:#9a3412;border-color:#fdba74;}
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-bold text-white text-xl shadow">
+          <i class="fa-brands fa-facebook-f"></i>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold tracking-tight">Revoland FB Poster <span class="text-xs bg-blue-500/20 text-blue-300 border border-blue-500/40 px-2 py-0.5 rounded ml-2">MVP v2.0</span></h1>
+          <p class="text-xs text-slate-400">Đăng tin tự động vào nhóm Facebook bằng phiên trình duyệt khách hàng</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-3 text-xs"><a href="/" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg font-medium transition">← Giao diện mới</a>
+        <button onclick="openConfigModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-lg font-medium transition flex items-center space-x-1.5">
+          <i class="fa-solid fa-gear"></i><span>Cấu Hình API Revoland</span>
+        </button>
+        <span id="header-fb-badge" class="inline-flex items-center px-3 py-1.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
+          <span class="w-2 h-2 mr-1.5 bg-amber-400 rounded-full animate-pulse"></span>
+          Đang kiểm tra phiên Facebook...
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Step Bar -->
+  <div class="bg-white border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <div class="flex items-center justify-between text-xs font-semibold text-slate-500">
+        <div class="flex items-center space-x-2 text-blue-600">
+          <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center">1</span>
+          <span>Phiên Facebook</span>
+        </div>
+        <i class="fa-solid fa-chevron-right text-slate-300"></i>
+        <div class="flex items-center space-x-2 text-slate-700">
+          <span class="w-6 h-6 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center">2</span>
+          <span>Chọn Căn Revoland</span>
+        </div>
+        <i class="fa-solid fa-chevron-right text-slate-300"></i>
+        <div class="flex items-center space-x-2 text-slate-700">
+          <span class="w-6 h-6 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center">3</span>
+          <span>Chọn Nhóm FB</span>
+        </div>
+        <i class="fa-solid fa-chevron-right text-slate-300"></i>
+        <div class="flex items-center space-x-2 text-slate-700">
+          <span class="w-6 h-6 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center">4</span>
+          <span>Xem Trước & Đăng</span>
+        </div>
+        <i class="fa-solid fa-chevron-right text-slate-300"></i>
+        <div class="flex items-center space-x-2 text-slate-700">
+          <span class="w-6 h-6 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center">5</span>
+          <span>Kết Quả & Retry</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+<div id="mode-banner" role="status" class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-sm">Đang kiểm tra chế độ dữ liệu...</div>
+    <!-- STEP 1: FACEBOOK SESSION BANNER -->
+    <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="flex items-center space-x-4">
+          <div id="session-icon-box" class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl font-bold shadow-inner">
+            <i class="fa-brands fa-facebook"></i>
+          </div>
+          <div>
+            <div class="flex items-center space-x-2">
+              <h2 class="text-base font-bold text-slate-900">Phiên Trình Duyệt Facebook Của Khách</h2>
+              <span id="session-status-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600">Đang tải...</span>
+            </div>
+            <p id="session-status-desc" class="text-xs text-slate-500 mt-1">
+              Khách tự đăng nhập trên trình duyệt để lưu phiên. Tool không lưu mật khẩu và sẽ dùng phiên còn hiệu lực để đăng bài thay khách.
+            </p>
+          </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="triggerFbLogin()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-xl text-xs shadow transition flex items-center space-x-1.5">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i><span>Mở Trình Duyệt Đăng Nhập FB</span>
+          </button>
+          <button onclick="checkSessionStatus()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium px-3.5 py-2 rounded-xl text-xs transition flex items-center space-x-1">
+            <i class="fa-solid fa-arrows-rotate"></i><span>Kiểm Tra Lại</span>
+          </button>
+          <button onclick="logoutFbSession()" class="border border-rose-200 hover:bg-rose-50 text-rose-600 font-medium px-3.5 py-2 rounded-xl text-xs transition flex items-center space-x-1">
+            <i class="fa-solid fa-right-from-bracket"></i><span>Xóa Phiên / Đăng Xuất</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN TWO COLUMNS -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+      <!-- LEFT COLUMN: CHỌN CĂN REVOLAND & CHỌN NHÓM (7 COLS) -->
+      <div class="lg:col-span-7 space-y-6">
+
+        <!-- STEP 2: CHỌN CĂN REVOLAND -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
+                <span class="w-5 h-5 rounded-full bg-blue-100 text-blue-700 text-xs flex items-center justify-center font-bold">2</span>
+                <span>Chọn Căn Đã Đăng Trên Revoland</span>
+              </h3>
+              <p class="text-xs text-slate-500">Dữ liệu lấy trực tiếp từ API Revoland kèm hình ảnh và thông số.</p>
+            </div>
+            <button onclick="loadRevolandListings()" class="text-blue-600 hover:text-blue-800 text-xs font-semibold flex items-center space-x-1">
+              <i class="fa-solid fa-rotate"></i><span>Tải lại</span>
+            </button>
+          </div>
+
+          <!-- Listings Cards Container -->
+          <div id="listings-container" class="space-y-3">
+            <div class="text-center py-8 text-slate-400 text-xs">Đang tải danh sách căn hộ...</div>
+          </div>
+        </div>
+
+        <!-- STEP 3: CHỌN NHÓM FACEBOOK -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
+                <span class="w-5 h-5 rounded-full bg-blue-100 text-blue-700 text-xs flex items-center justify-center font-bold">3</span>
+                <span>Chọn Nhóm Facebook Mục Tiêu Để Đăng Bài</span>
+              </h3>
+              <p class="text-xs text-slate-500">Chọn tối đa 100 nhóm theo cài đặt. Tool đăng lần lượt bằng tài khoản hiện tại; lịch sử cũ không chặn lượt đăng mới.</p>
+            </div>
+            <div class="flex items-center space-x-2">
+              <button onclick="selectAllGroups(true)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-lg">Chọn tất cả</button>
+              <button onclick="selectAllGroups(false)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-lg">Bỏ chọn</button>
+              <button onclick="openAddGroupModal()" class="text-xs bg-blue-50 text-blue-700 border border-blue-200 px-2.5 py-1 rounded-lg font-medium">+ Thêm nhóm</button>
+            </div>
+          </div>
+
+          <!-- Groups Table -->
+          <div class="overflow-hidden border border-slate-200 rounded-xl">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 font-semibold">
+                <tr>
+                  <th class="p-3 w-10 text-center"><input type="checkbox" id="check-all-groups" onchange="toggleAllCheckboxes(this)"></th>
+                  <th class="p-3">Tên Nhóm Facebook</th>
+                  <th class="p-3">Khu Vực</th>
+                  <th class="p-3 text-right">Thao Tác</th>
+                </tr>
+              </thead>
+              <tbody id="groups-table-body" class="divide-y divide-slate-200">
+                <tr><td colspan="4" class="p-4 text-center text-slate-400">Đang tải danh sách nhóm...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN: XEM TRƯỚC NỘI DUNG & THỰC THI (5 COLS) -->
+      <div class="lg:col-span-5 space-y-6">
+
+        <!-- STEP 4: XEM TRƯỚC NỘI DUNG & BẤM ĐĂNG -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4 sticky top-24">
+          <h3 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
+            <span class="w-5 h-5 rounded-full bg-blue-100 text-blue-700 text-xs flex items-center justify-center font-bold">4</span>
+            <span>Xem Trước Nội Dung & Khởi Chạy</span>
+          </h3>
+
+          <div id="preview-box" class="space-y-3">
+            <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/50 space-y-3">
+              <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">
+                  <i class="fa-solid fa-user"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-slate-900 text-xs" id="preview-author-name">Chuyên Viên Tư Vấn Revoland</h4>
+                  <p class="text-[10px] text-slate-400">Đăng tự động bằng phiên trình duyệt khách hàng • Công khai</p>
+                </div>
+              </div>
+
+              <!-- Post Content Textarea -->
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Nội dung bài viết (Có thể chỉnh sửa):</label>
+                <textarea id="preview-post-text" rows="8" class="w-full text-xs p-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none leading-relaxed font-sans"></textarea>
+              </div>
+
+              <!-- Preview Media Thumbnails -->
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Ảnh thực tế đính kèm từ Revoland:</label>
+                <div id="preview-images-container" class="grid grid-cols-2 gap-2">
+                  <!-- Rendered via JS -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Start Posting Button -->
+            <button onclick="startPostingCampaign()" id="btn-start-posting" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg transition flex items-center justify-center space-x-2 text-sm">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>BẮT ĐẦU ĐĂNG BÀI LÊN CÁC NHÓM</span>
+            </button>
+            <p class="text-[11px] text-slate-400 text-center">Tool đăng lần lượt từng nhóm. Thời gian nghỉ càng ngắn, nguy cơ bị Facebook hạn chế hoặc khóa tài khoản càng cao; không có khoảng nghỉ nào bảo đảm tránh bị khóa.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- STEP 5: REALTIME RESULTS TRACKER -->
+    <div id="results-section" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <div class="px-6 py-4 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div>
+          <h3 class="font-bold text-slate-900 text-base flex items-center space-x-2">
+            <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 text-xs flex items-center justify-center font-bold">5</span>
+            <span>Kết Quả Đăng Bài Từng Nhóm (Chiến Dịch Gần Nhất)</span>
+          </h3>
+          <p class="text-xs text-slate-500" id="campaign-status-label">Chưa có chiến dịch nào được khởi chạy.</p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button id="btn-resume-campaign" onclick="runCampaign(false)" class="hidden px-3 py-2 bg-blue-600 text-white rounded-lg">Tiếp tục nhóm chưa gửi</button>
+          <button onclick="retryFailedGroups()" id="btn-retry-failed" class="hidden bg-rose-600 hover:bg-rose-700 text-white font-semibold px-4 py-2 rounded-xl text-xs shadow flex items-center space-x-1.5 transition">
+            <i class="fa-solid fa-rotate-right"></i><span>Thử Lại Các Nhóm Thất Bại</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="p-4 flex flex-wrap gap-3 items-center"><label for="campaign-history">Lịch sử: </label><select id="campaign-history" onchange="selectHistory()" class="border rounded p-2 max-w-full"></select>
+        <button id="btn-export-campaign" onclick="exportPostingResults(false)" class="px-3 py-2 rounded-lg bg-emerald-700 text-white text-xs">Xuất chiến dịch đang xem</button>
+        <button id="btn-export-all" onclick="exportPostingResults(true)" class="px-3 py-2 rounded-lg border text-xs">Xuất toàn bộ lịch sử</button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 font-semibold uppercase tracking-wider">
+            <tr>
+              <th class="px-4 py-3">Tên Nhóm Facebook</th>
+              <th class="px-4 py-3">Trạng Thái Đăng</th>
+              <th class="px-4 py-3">Link Bài Đăng / Ghi Chú Chi Tiết</th>
+              <th class="px-4 py-3">Số Lần Retry</th>
+              <th class="px-4 py-3">Thời Gian</th>
+            </tr>
+          </thead>
+          <tbody id="results-table-body" class="divide-y divide-slate-200">
+            <tr><td colspan="5" class="px-4 py-8 text-center text-slate-400">Chưa có kết quả đăng bài. Hãy chọn căn và bấm bắt đầu đăng bài bên trên.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <section class="bg-white rounded-2xl border border-slate-200 p-6 space-y-3">
+      <h3 class="font-bold">Xuất bình luận / lead ra Excel</h3>
+      <p class="text-sm text-slate-600">Chọn file JSON bình luận hoặc lead để lọc, trích liên hệ và tải Excel. Không cần API Revoland; thao tác này không thu thập bình luận Facebook hoặc tạo lead trên Revoland.</p>
+      <p class="text-xs text-slate-500">Tối đa 5 MB, 5.000 bản ghi, 20.000 ký tự mỗi bình luận. Trạng thái đồng bộ trong file là theo dữ liệu bạn nhập, không được xác minh qua API.</p>
+      <div class="flex flex-wrap items-center gap-3">
+        <label for="comments-json-file" class="text-sm">File bình luận JSON:</label>
+        <input id="comments-json-file" type="file" accept=".json,application/json" class="text-sm">
+        <button id="btn-export-comments" onclick="exportCommentResults()" class="px-4 py-2 bg-emerald-700 text-white rounded-lg text-sm">Lọc &amp; xuất Excel</button>
+        <a href="/api/exports/comments/example" download="binh_luan_mau.json" class="text-blue-600 underline text-sm">Tải JSON mẫu</a>
+      </div>
+      <p id="export-status" role="status" class="text-sm text-slate-600" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <!-- MODAL: CẤU HÌNH API REVOLAND -->
+  <div id="modal-config" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b pb-3">
+        <h3 class="font-bold text-slate-900 text-base flex items-center space-x-2">
+          <i class="fa-solid fa-sliders text-blue-600"></i>
+          <span>Cấu Hình Kết Nối API Revoland</span>
+        </h3>
+        <button onclick="closeConfigModal()" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+
+      <form id="form-config" onsubmit="saveSystemConfig(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Revoland API URL:</label>
+          <input type="url" id="cfg-api-url" required class="w-full p-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Revoland API Key:</label>
+          <input type="password" id="cfg-api-key" autocomplete="new-password" class="w-full p-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        </div>
+        <div class="flex items-center space-x-2 py-1">
+          <input type="checkbox" id="cfg-mock-mode" class="rounded text-blue-600">
+          <label for="cfg-mock-mode" class="font-semibold text-slate-700">Kích hoạt Chế Độ Giả Lập (Mock Mode) khi chưa có API thật</label>
+        </div>
+        <div class="grid grid-cols-2 gap-3 pt-1">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Số Điện Thoại Đính Kèm Bài:</label>
+            <input type="text" id="cfg-contact-phone" class="w-full p-2 rounded-lg border border-slate-300">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Tên Chuyên Viên Tư Vấn:</label>
+            <input type="text" id="cfg-contact-name" class="w-full p-2 rounded-lg border border-slate-300">
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Khoảng nghỉ tối thiểu (giây):</label>
+            <input type="number" id="cfg-min-delay" min="3" max="30" class="w-full p-2 rounded-lg border border-slate-300">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Khoảng nghỉ tối đa (giây):</label>
+            <input type="number" id="cfg-max-delay" min="5" max="60" class="w-full p-2 rounded-lg border border-slate-300">
+          </div>
+        </div>
+
+        <div id="test-connection-result" class="hidden p-2.5 rounded-lg text-xs"></div>
+
+        <div class="flex items-center justify-between pt-3 border-t">
+          <button type="button" onclick="testRevolandPing()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-4 py-2 rounded-lg">
+            <i class="fa-solid fa-plug mr-1"></i> Lưu & Kiểm Tra Kết Nối
+          </button>
+          <div class="flex space-x-2">
+            <button type="button" onclick="closeConfigModal()" class="border px-4 py-2 rounded-lg text-slate-600">Hủy</button>
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg">Lưu Cấu Hình</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: THÊM NHÓM FACEBOOK -->
+  <div id="modal-group" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b pb-3">
+        <h3 class="font-bold text-slate-900 text-sm">Thêm Nhóm Facebook Mới</h3>
+        <button onclick="closeAddGroupModal()" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Tên Nhóm Facebook:</label>
+          <input type="text" id="new-group-name" placeholder="VD: Bất Động Sản Thủ Đức Chính Chủ" class="w-full p-2 rounded-lg border border-slate-300">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Đường Dẫn URL Nhóm:</label>
+          <input type="url" id="new-group-url" placeholder="https://www.facebook.com/groups/..." class="w-full p-2 rounded-lg border border-slate-300">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Khu Vực / Phân Loại:</label>
+          <input type="text" id="new-group-category" placeholder="VD: Thủ Đức, Quận 7, Toàn TP.HCM" class="w-full p-2 rounded-lg border border-slate-300">
+        </div>
+
+        <div class="border-t pt-3">
+          <p class="font-semibold text-slate-600 mb-1">Hoặc Dán Nhanh Danh Sách Link Nhóm (Mỗi dòng 1 link):</p>
+          <textarea id="bulk-groups-text" rows="3" placeholder="https://facebook.com/groups/group1&#10;https://facebook.com/groups/group2" class="w-full p-2 rounded-lg border border-slate-300"></textarea>
+        </div>
+
+        <div class="flex justify-end space-x-2 pt-2">
+          <button onclick="closeAddGroupModal()" class="border px-4 py-2 rounded-lg text-slate-600">Hủy</button>
+          <button onclick="submitNewGroup()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg">Xác Nhận Thêm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/app.js"></script>
+</body>
+</html>

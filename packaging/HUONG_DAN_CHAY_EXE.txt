@@ -1,0 +1,46 @@
+HƯỚNG DẪN NHANH - CÔNG CỤ BĐS FACEBOOK
+Bản 2026.11.11-link.18
+
+1. Giải nén đầy đủ bộ bàn giao, mở CongCuBDS_JSON.exe.
+   Đợi trình duyệt mở. Giữ cửa sổ chạy công cụ mở trong khi sử dụng.
+
+2. Bấm Đăng nhập Facebook, hoàn tất mật khẩu/OTP trong cửa sổ Facebook.
+   Khi mở bản mới, đóng cửa sổ chạy bản cũ trước.
+
+3. Dán link chi tiết Revoland hoặc link dữ liệu JSON, bấm Lấy tin & soạn nội dung.
+   Công cụ đọc đúng tin, tạo nội dung và tải ảnh để bạn duyệt.
+   Bạn cũng có thể chọn file JSON và bấm Nạp JSON & xem bài.
+   Nạp nhanh tải ảnh khi bạn chọn tin. Mẫu bai_dang_mau.json có hai bài
+   minh họa, cần thay bằng thông tin thật trước khi sử dụng.
+
+4. Đọc lại nội dung, kiểm tra ảnh, thêm và tích chọn nhóm.
+   Chọn thời gian nghỉ giữa hai nhóm, tích xác nhận đã duyệt,
+   bấm Lưu & chuẩn bị đăng.
+
+5. Chọn đúng đợt và bấm Bắt đầu đăng, rồi xác nhận.
+   Theo dõi trạng thái từng nhóm và mở link bài đã đăng.
+   Bài chờ duyệt/chưa rõ kết quả cần kiểm tra trước khi đăng lại.
+
+6. Mở tab Khách hàng, chọn đợt và bài/nhóm, bấm Lấy & lọc comment.
+   Có thể bấm Dừng lấy comment và giữ phần dữ liệu đã có.
+
+7. Mỗi khách một dòng. Cột Nhóm nằm cạnh bình luận của từng nhóm.
+   Chọn bộ lọc, xem đầy đủ nội dung nếu cần và Tải Excel theo bộ lọc.
+
+Dữ liệu mặc định
+%LOCALAPPDATA%\RevolandFBPoster\default
+
+Nếu dùng --customer khach01, dữ liệu nằm trong thư mục khach01.
+REVOLAND_DATA_DIR được ưu tiên nếu đã đặt trong môi trường.
+Tắt công cụ trước khi sao lưu toàn bộ thư mục dữ liệu của khách.
+
+Các file đi kèm
+- HUONG_DAN_SU_DUNG.pdf hướng dẫn có hình.
+- RA_SOAT_BAN_GIAO.md kết quả rà soát và phạm vi cần nghiệm thu thật.
+- EXE_VERIFICATION.json kết quả kiểm tra bản EXE.
+- SHA256SUMS.txt mã kiểm tra tính toàn vẹn các file.
+
+Nghiệm thu bàn giao cần có máy nhận, tài khoản và nhóm Facebook mục tiêu.
+
+
+

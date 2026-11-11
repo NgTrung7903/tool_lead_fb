@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Khách hàng từ bình luận Facebook</title>
+<link rel="stylesheet" href="/assets/leads.css">
+<script src="/assets/common.js" defer></script>
+<script src="/assets/leads.js" defer></script>
+</head>
+<body>
+<header class="topbar"><div class="topbar-inner">
+  <a class="brand" href="/"><span class="logo">B</span><div><strong>Công cụ BĐS Facebook</strong><small>Đăng tin · Tìm khách hàng</small></div></a>
+  <nav class="tabs"><a href="/">Đăng tin lên nhóm</a><a href="/leads" class="active">Khách hàng</a></nav>
+  <div class="fb-widget">
+    <span id="session-status" class="pill">Đang tải...</span>
+    <button id="quick-check" type="button" class="small" hidden>Kiểm tra kết nối</button>
+    <button id="login" class="small">Đăng nhập Facebook</button>
+    <details class="more"><summary title="Tùy chọn khác" aria-label="Tùy chọn khác">⋯</summary><div class="menu">
+      <button id="check-session" type="button">Kiểm tra lại kết nối Facebook</button>
+      <a href="/posting">Nguồn Revoland (bản cũ)</a>
+      <button id="logout" type="button" class="danger">Đăng xuất / xóa phiên Facebook</button>
+    </div></details>
+  </div>
+</div></header>
+
+<main>
+  <div class="intro"><h2>Khách hàng</h2><p>Mỗi khách một dòng, tổng hợp bình luận từ nhiều nhóm và bài viết. Lấy và lọc comment ngay tại đây; Excel cũng gom theo khách hàng.</p></div>
+  <div id="notice" role="status" aria-live="polite"></div>
+  <section class="card" id="comment-collection">
+    <h3>Lấy & lọc comment</h3>
+    <div class="filters">
+      <label class="grow">Đợt đăng<select id="collection-campaign"><option value="">— Chọn đợt đăng —</option></select></label>
+      <label class="grow">Bài / nhóm<select id="collection-task"><option value="">Tất cả bài đã đăng trong đợt</option></select></label>
+      <label>Số bình luận tối đa mỗi bài<input id="comment-limit" type="number" min="1" max="500" value="100"></label>
+    </div>
+    <div class="actions"><button id="collect-selected" disabled>Lấy & lọc comment</button><button id="collection-stop" class="secondary" disabled>Dừng lấy comment</button><button id="reload-publications" class="secondary">Tải lại đợt đăng</button></div>
+    <p class="hint">Chỉ lấy từ bài đã xác nhận đăng thành công. Bài đang chờ duyệt hoặc chưa rõ kết quả cần kiểm tra tại tab Đăng tin. Tối đa 5 phút mỗi bài; lấy lại bổ sung và cập nhật bình luận, giữ dữ liệu đã lưu.</p>
+    <p id="collection-status" class="hint" role="status"></p>
+  </section>
+  <section class="card">
+    <div class="section-head"><h3>Kết quả tổng hợp</h3><div class="actions" style="margin:0"><button id="refresh-results" class="secondary">Làm mới</button><button id="export" disabled>Tải Excel theo bộ lọc</button></div></div>
+    <p id="run-status" role="status" class="muted">Đang tải kết quả đã lưu...</p>
+    <p id="latest-collection" class="hint"></p>
+    <p id="article-scope" hidden>Đang xem bài được chọn từ tab Đăng tin. <button id="clear-article" class="link small">Xem các bài khác</button></p>
+    <button id="back-to-results" class="secondary small" hidden>Quay lại kết quả tổng hợp</button>
+    <div id="collection-targets"></div>
+    <div class="stats">
+      <button type="button" data-filter=""><strong id="total">0</strong><span>Tất cả khách hàng</span></button>
+      <button type="button" data-filter="LEAD_POTENTIAL" class="s-lead"><strong id="potential">0</strong><span>Khách tiềm năng</span></button>
+      <button type="button" data-filter="NEEDS_REVIEW" class="s-review"><strong id="review">0</strong><span>Cần xem lại</span></button>
+      <button type="button" data-filter="IGNORE" class="s-ignore"><strong id="ignored">0</strong><span>Bỏ qua</span></button>
+    </div>
+    <div class="filters">
+      <label>Đợt đăng<select id="campaign-filter"><option value="">Tất cả đợt đăng</option></select></label>
+      <label>Nhóm<select id="group-filter"><option value="">Tất cả nhóm</option></select></label>
+      <label>Phân loại<select id="classification"><option value="">Tất cả</option><option value="LEAD_POTENTIAL">Khách tiềm năng</option><option value="NEEDS_REVIEW">Cần xem lại</option><option value="IGNORE">Bỏ qua</option></select></label>
+      <label>Mức quan tâm<select id="interest-filter"><option value="">Tất cả mức</option><option value="strong">Mạnh</option><option value="moderate">Vừa</option><option value="weak">Yếu</option><option value="unclear">Chưa rõ</option><option value="none">Chưa thấy nhu cầu</option></select></label>
+      <label class="grow">Tìm kiếm<input id="search" type="search" placeholder="Tên, số điện thoại, Zalo hoặc nội dung"></label>
+    </div>
+    <p id="result-count" class="hint"></p>
+    <p class="hint">Mạnh: mua/chốt/hẹn xem. Vừa: hỏi chi tiết, xin tư vấn. Yếu: hỏi giá, ib, lời khen. Chưa rõ: từ đa nghĩa hoặc thiếu nội dung. Mức quan tâm dựa trên câu viết, tách riêng kênh liên hệ; không suy đoán danh tính người ẩn danh.</p>
+    <div class="table-wrap"><table class="customer-table">
+      <colgroup>
+        <col class="customer-author-column"><col class="customer-contact-column">
+        <col class="customer-group-column"><col><col class="customer-source-column">
+        <col class="customer-category-column"><col class="customer-reason-column">
+      </colgroup>
+      <thead><tr><th>Người bình luận</th><th>Liên hệ</th><th>Nhóm</th><th>Bình luận</th><th>Đợt đăng / bài</th><th>Phân loại</th><th>Lý do</th></tr></thead>
+      <tbody id="results"></tbody>
+    </table></div>
+    <div class="pager"><button class="secondary small" id="previous">‹ Trước</button><span id="page-number"></span><button class="secondary small" id="next">Sau ›</button></div>
+    <p class="hint">Excel lấy toàn bộ kết quả khớp đợt đăng, nhóm, phân loại và ô tìm kiếm, kể cả các trang khác. Phân loại là gợi ý theo từ khóa; cần xác nhận nhu cầu với khách.</p>
+  </section>
+  <details class="card" id="history-box"><summary>Lịch sử các lần lấy comment</summary>
+    <p>Xem lại một lần lấy cụ thể. Lịch sử không làm tăng số comment trong bảng tổng hợp.</p>
+    <label for="history">Chọn lần lấy</label><select id="history"><option value="">— Chọn lần lấy —</option></select>
+  </details>
+  <details class="card" id="extra-tools"><summary>Công cụ bổ sung</summary>
+    <details id="external-post"><summary>Lọc bài ngoài tool bằng link Facebook</summary>
+      <form id="collect-form"><label for="post-url">Link chia sẻ / link bài viết Facebook</label>
+        <div class="row"><input type="url" id="post-url" placeholder="https://www.facebook.com/share/p/.../" required><button id="collect" type="submit">Lấy bình luận &amp; lọc</button><button id="stop" class="secondary" type="button" disabled>Dừng</button></div>
+        <div class="actions"><label for="limit" style="margin:0">Số bình luận tối đa</label><input id="limit" type="number" min="1" max="500" value="100" required><span class="hint">Từ 1 đến 500. Tối đa 5 phút mỗi bài, giữ kết quả khi hết thời gian. Cần đăng nhập Facebook trước.</span></div>
+      </form>
+    </details>
+    <details id="manual-tools"><summary>Nhập comment thủ công / JSON</summary>
+      <p>Kết quả nhập tay chỉ dùng trong phiên xem hiện tại; tải Excel nếu cần giữ.</p>
+      <label for="manual-text">Mỗi bình luận một dòng</label><textarea id="manual-text" rows="5" placeholder="Cần mua căn này, liên hệ 0912345678&#10;Cho mình xin giá"></textarea>
+      <div class="actions"><button id="filter-manual">Lọc các bình luận đã dán</button><button id="sample" class="secondary">Xem ví dụ mẫu</button><label style="margin:0">Chọn file JSON<input id="json-file" type="file" accept=".json,application/json"></label><a href="/api/exports/comments/example" download>Tải file JSON mẫu</a></div>
+    </details>
+    <details><summary>Quy tắc phân loại (nâng cao)</summary><div id="registries"></div></details>
+  </details>
+</main>
+<footer>Dữ liệu và phiên Facebook chỉ lưu trên máy tính này.</footer>
+</body></html>

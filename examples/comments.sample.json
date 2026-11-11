@@ -1,0 +1,29 @@
+[
+  {
+    "id": "sample_001",
+    "author": "Khách mẫu A",
+    "text": "Cần mua căn này, cuối tuần xem nhà được không? SĐT 0912345678",
+    "listing_id": "can_mau_01",
+    "sync_status": "not_synced"
+  },
+  {
+    "id": "sample_002",
+    "author": "Khách mẫu B",
+    "text": "Cho mình xin giá với bạn.",
+    "listing_id": "can_mau_01"
+  },
+  {
+    "id": "sample_003",
+    "author": "Khách mẫu C",
+    "text": "Không mua nữa, mình tìm được rồi.",
+    "listing_id": "can_mau_01"
+  },
+  {
+    "id": "sample_lead_001",
+    "customer_name": "Lead mẫu từ JSON",
+    "phone_number": "0912345678",
+    "intent_summary": "Bản ghi lead mẫu, không có bình luận gốc",
+    "listing_id": "can_mau_01",
+    "sync_status": "not_synced"
+  }
+]

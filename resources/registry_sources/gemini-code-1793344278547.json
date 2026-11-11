@@ -1,0 +1,65 @@
+{
+  "version": "1.2.0",
+  "spam_categories": {
+    "competitor_hijacking": {
+      "penalty": 100,
+      "description": "Môi giới khác hoặc chủ nhà vào bình luận ké bài, cướp khách",
+      "patterns": [
+        "ké chủ tus", "ké chủ top", "xin phép chủ tus", "ké căn", "ké lô",
+        "bên em có căn", "bên mình có căn", "em có căn tương tự", "mình có căn gần đây",
+        "chính chủ cần bán", "chính chủ gửi bán", "cần bán gấp căn", "cắt lỗ gấp căn",
+        "nhận ký gửi", "ký gửi mua bán", "tìm anh em môi giới", "hợp tác môi giới",
+        "hoa hồng cho anh em", "hh 1%", "hh 2%", "giỏ hàng giá f0",
+        "ke chu tus", "ben em co can", "chinh chu can ban", "nhan ky gui", "hop tac moi gioi"
+      ]
+    },
+    "re_ancillary_services": {
+      "penalty": 100,
+      "description": "Quảng cáo dịch vụ ăn theo BĐS (nội thất, chuyển nhà, lắp mạng, làm sổ)",
+      "patterns": [
+        "thiết kế nội thất", "thi công nội thất", "xưởng nội thất", "báo giá nội thất",
+        "chuyển nhà trọn gói", "chuyển văn phòng", "xe tải chuyển nhà", "xe ba gác",
+        "dọn vệ sinh công nghiệp", "vệ sinh nhà mới", "lắp đặt rèm cửa", "giấy dán tường",
+        "lắp mạng viettel", "lắp mạng fpt", "lắp đặt wifi", "lắp đặt camera",
+        "dịch vụ làm sổ", "nhận làm sổ đỏ", "nhận xóa thế chấp", "đáo hạn ngân hàng",
+        "thiet ke noi that", "thi cong noi that", "chuyen nha tron goi", "dich vu lam so"
+      ]
+    },
+    "financial_loan": {
+      "penalty": 100,
+      "description": "Quảng cáo cho vay tiền, tín dụng đen (đã tách khỏi câu hỏi vay ngân hàng của khách)",
+      "patterns": [
+        "cho vay tiền", "cho vay vốn", "bên em hỗ trợ vay vốn", "nhận hỗ trợ vay",
+        "giải ngân 24h", "giải ngân trong ngày", "giải ngân siêu tốc",
+        "lãi suất thấp không thế chấp", "hỗ trợ vay nợ xấu", "hỗ trợ vay nhanh",
+        "nợ xấu vẫn vay", "bao nợ xấu", "vay tiêu dùng", "vay tín chấp",
+        "không thế chấp", "bốc bát họ", "vay góp ngày", "vay cmnd", "vay cccd", "rút tiền thẻ tín dụng"
+      ]
+    },
+    "recruitment_scam": {
+      "penalty": 100,
+      "description": "Tuyển dụng việc nhẹ lương cao, ctv, tuyển sale BĐS",
+      "patterns": [
+        "tuyển dụng", "tuyển sale bđs", "tuyển nhân viên kinh doanh", "việc làm tại nhà",
+        "kiếm tiền online", "hoa hồng cao", "ctv bán hàng", "tuyển cộng tác viên",
+        "thu nhập 500k", "thu nhập 1tr", "tuyển mẫu", "việc nhẹ", "lương ngày", "nhận việc về nhà làm"
+      ]
+    },
+    "gambling_crypto": {
+      "penalty": 100,
+      "description": "Cờ bạc, crypto, kéo tài xỉu, chứng khoán lừa đảo",
+      "patterns": [
+        "crypto", "tiền ảo", "tài xỉu", "lô đề", "nhà cái", "baccarat",
+        "kéo 1-1", "nhóm kéo", "kèo thơm", "đầu tư sinh lời 30%", "lợi nhuận cam kết", "sàn forex"
+      ]
+    },
+    "service_spam": {
+      "penalty": 100,
+      "description": "Quảng cáo dịch vụ khác (sim, like, mỹ phẩm, thuốc)",
+      "patterns": [
+        "bán sim", "sim số đẹp", "tăng tương tác", "tăng like", "mua view", "chạy quảng cáo",
+        "thanh lý gấp", "hàng tồn kho", "mỹ phẩm", "giảm cân", "chữa trĩ", "trị nám", "xương khớp"
+      ]
+    }
+  }
+}

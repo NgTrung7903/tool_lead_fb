@@ -1,0 +1,64 @@
+# Python environments and generated caches
+.venv/
+venv/
+env/
+.cache/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.pytest-tmp/
+.pytest-*/
+.test-runs/
+profiles/
+browser_data/
+data/
+config/config.json
+config/groups.json
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.log
+build/
+dist/
+*.egg-info/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Local exports, customer databases, backups and credentials
+output/
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+*.bak
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Editor and operating-system files
+.idea/
+.vscode/
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Separate repositories cloned inside this workspace
+/Data_tool/
+/Tool/
+/toolfb/
+
+# Local property inventory with real contact and company data
+/resources/datasets/quinland.json
+
+# Generated source distributions
+*.zip
+*.7z
+*.rar
+*.exe

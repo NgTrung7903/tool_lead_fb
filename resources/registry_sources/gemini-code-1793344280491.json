@@ -1,0 +1,124 @@
+{
+  "version": "1.2.0",
+  "variants": {
+    "inbox_variants": {
+      "weight": 15,
+      "canonical": "inbox",
+      "tokens": [
+        "ib", "inb", "inbox", "in box", "inbox mình", "ib mình", "inb mình",
+        "ib nhé", "check ib", "check inb", "rep ib", "rep inb", "inbox shop",
+        "ib e", "ib a", "ib em", "ib anh", "ib chị", "nhắn mình", "tv qua ib"
+      ],
+      "strength": "weak"
+    },
+    "interested_variants": {
+      "weight": 15,
+      "canonical": "quan_tam",
+      "tokens": [
+        "qtam", "quan tam", "q tâm", "q.tam", "q.tâm", "qt",
+        "qtam nhe", "quan tâm căn này", "quan tâm nhé", "quan tam can nay",
+        "rất quan tâm", "quan tâm", "interested", "chấm", "hóng"
+      ],
+      "strength": "weak"
+    },
+    "price_variants": {
+      "weight": 15,
+      "canonical": "bao_nhieu",
+      "tokens": [
+        "bn", "bnhieu", "bao nhieu", "gia bn", "giá bn", "bn tiền",
+        "bnh", "mấy đồng", "mấy tỷ", "may ty", "bao tien", "rổ giá", "ro gia", "giá sao"
+      ],
+      "strength": "weak"
+    },
+    "contact_variants": {
+      "weight": 20,
+      "canonical": "lien_he",
+      "tokens": [
+        "sdt", "sđt", "so dt", "số đt", "số điện thoại", "zalo", "zl",
+        "add zalo", "kb zalo", "kết bạn zalo", "check zalo", "gửi qua zalo",
+        "lh", "liên hệ", "call", "alo", "phone", "gọi mình"
+      ],
+      "strength": "moderate"
+    },
+    "legal_variants": {
+      "weight": 20,
+      "canonical": "phap_ly",
+      "tokens": [
+        "shr", "sổ hồng riêng", "so hong rieng", "sổ riêng", "so rieng",
+        "sổ sẵn", "so san", "full thổ", "full tho", "thổ cư 100%", "tho cu",
+        "hoàn công", "hoan cong", "ccst", "công chứng ngay", "pháp lý chuẩn"
+      ],
+      "strength": "moderate"
+    },
+    "feature_access_variants": {
+      "weight": 15,
+      "canonical": "dac_diem_bds",
+      "tokens": [
+        "hxh", "hẻm xe hơi", "hem xe hoi", "hẻm ô tô", "hem o to", "ô tô đỗ cửa",
+        "mt", "mặt tiền", "mat tien", "lô góc", "lo goc", "căn góc", "can goc",
+        "1pn", "2pn", "3pn", "trệt lầu", "tret lau", "full nt", "full nội thất"
+      ],
+      "strength": "moderate"
+    },
+    "location_request_variants": {
+      "weight": 15,
+      "canonical": "vi_tri",
+      "tokens": [
+        "vị trí", "vi tri", "định vị", "dinh vi", "share vị trí", "gửi map",
+        "google map", "chấm vị trí", "khúc nào", "đoạn nào", "gần chỗ nào"
+      ],
+      "strength": "weak"
+    },
+    "info_variants": {
+      "weight": 10,
+      "canonical": "thong_tin",
+      "tokens": [
+        "tt", "ttin", "thông tin", "thong tin", "xin tt", "gửi tt",
+        "chi tiet", "ctiet", "chi tiết", "full tt", "thông số"
+      ],
+      "strength": "weak"
+    },
+    "re_variants": {
+      "weight": 10,
+      "canonical": "can_ho_dat",
+      "tokens": [
+        "căn này", "can nay", "nhà này", "nha nay", "lô này", "lo nay",
+        "miếng này", "mảnh này", "nền này", "nen nay", "bất động sản này"
+      ],
+      "strength": "weak"
+    }
+  },
+  "strength_rules": {
+    "moderate": [
+      "rất quan tâm",
+      "đang tìm khu này",
+      "đang cần tìm",
+      "hợp nhu cầu",
+      "very interested"
+    ],
+    "weak": [
+      "đẹp quá",
+      "đẹp đấy",
+      "nhà đẹp",
+      "ưng quá",
+      "nhìn mê quá",
+      "nice",
+      "looks good",
+      "beautiful"
+    ]
+  },
+  "context_rules": {
+    "message_requests": [
+      "(?<!\\w)(?:please\\s+)?dm\\s+me\\b",
+      "(?<!\\w)(?:send|drop)\\s+me\\s+(?:a\\s+)?dm\\b",
+      "(?<!\\w)(?:nhắn|nhắn tin|gửi tin|inbox|ib|inb)\\s+(?:qua\\s+zalo\\s+)?(?:cho\\s+)?(?:mình|em|tôi|anh|chị)\\b",
+      "(?<!\\w)(?:gọi|alo|add\\s+zalo|kết\\s+bạn\\s+zalo)\\s+(?:cho\\s+)?(?:mình|em|tôi|số\\s+này)\\b",
+      "(?<!\\w)direct\\s+message\\s+me\\b",
+      "(?<!\\w)dm\\s+cho\\s+(?:mình|em|tôi|anh|chị)\\b"
+    ],
+    "contact_refusals": [
+      "(?<!\\w)(?:don't|don’t|do not|stop|đừng|không|ko|k)\\s+(?:dm|direct\\s+message|message|inbox|ib|nhắn(?:\\s+tin)?|gọi|làm\\s+phiền)(?:\\s+cho)?(?:\\s+(?:me|mình|em|tôi|anh|chị|nữa))?\\b"
+    ],
+    "message_weight": 20
+  }
+}

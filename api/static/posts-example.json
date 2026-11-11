@@ -1,0 +1,14 @@
+{
+  "posts": [
+    {
+      "title": "Bài đăng minh họa 1",
+      "content": "Cần bán căn hộ minh họa\nDiện tích: 72 m²\nGiá bán: 2,85 tỷ\nPháp lý: Đang làm sổ, chưa gồm phí.\nĐây là nội dung mẫu, hãy thay bằng bài của bạn.",
+      "images": []
+    },
+    {
+      "title": "Bài đăng minh họa 2",
+      "content": "Cho thuê căn hộ minh họa\nGiá thuê: 12 triệu/tháng\nChưa gồm phí quản lý.\nĐây là nội dung mẫu, hãy thay bằng bài của bạn.",
+      "images": []
+    }
+  ]
+}

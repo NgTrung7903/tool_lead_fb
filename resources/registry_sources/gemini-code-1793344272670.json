@@ -1,0 +1,150 @@
+{
+  "version": "1.2.0",
+  "locations": [
+    {
+      "name": "Hồ Chí Minh",
+      "aliases": [
+        "hcm", "tp hcm", "tphcm", "tp.hcm", "hồ chí minh", "ho chi minh",
+        "sài gòn", "saigon", "sài thành", "sg"
+      ]
+    },
+    {
+      "name": "Hà Nội",
+      "aliases": [
+        "hà nội", "ha noi", "hn", "tp hà nội", "thủ đô"
+      ]
+    },
+    {
+      "name": "Thủ Đức",
+      "aliases": [
+        "thủ đức", "thu duc", "tp thủ đức", "tp thu duc", "q thủ đức",
+        "quận 9", "quan 9", "q9", "q.9",
+        "quận 2", "quan 2", "q2", "q.2",
+        "thảo điền", "thao dien", "an phú", "vạn phúc", "cát lái"
+      ]
+    },
+    {
+      "name": "Bình Thạnh",
+      "aliases": [
+        "bình thạnh", "binh thanh", "q bình thạnh", "quận bình thạnh", "q.bình thạnh", "bt"
+      ]
+    },
+    {
+      "name": "Gò Vấp",
+      "aliases": [
+        "gò vấp", "go vap", "q gò vấp", "quận gò vấp", "q.gò vấp", "gv"
+      ]
+    },
+    {
+      "name": "Tân Bình",
+      "aliases": [
+        "tân bình", "tan binh", "q tân bình", "quận tân bình", "q.tân bình", "tb"
+      ]
+    },
+    {
+      "name": "Tân Phú",
+      "aliases": [
+        "tân phú", "tan phu", "q tân phú", "quận tân phú", "q.tân phú", "tp"
+      ]
+    },
+    {
+      "name": "Bình Tân",
+      "aliases": [
+        "bình tân", "binh tan", "q bình tân", "quận bình tân", "q.bình tân", "bình trị đông", "tên lửa"
+      ]
+    },
+    {
+      "name": "Quận 12",
+      "aliases": [
+        "quận 12", "quan 12", "q12", "q.12", "thới an", "thạnh xuân", "thạnh lộc", "hiệp thành"
+      ]
+    },
+    {
+      "name": "Hóc Môn",
+      "aliases": [
+        "hóc môn", "hoc mon", "huyện hóc môn", "bà điểm", "xuân thới thượng"
+      ]
+    },
+    {
+      "name": "Quận 1",
+      "aliases": [
+        "quận 1", "quan 1", "q1", "q.1", "bến nghé", "bến thành", "đa kao"
+      ]
+    },
+    {
+      "name": "Quận 3",
+      "aliases": [
+        "quận 3", "quan 3", "q3", "q.3"
+      ]
+    },
+    {
+      "name": "Phú Nhuận",
+      "aliases": [
+        "phú nhuận", "phu nhuan", "q phú nhuận", "quận phú nhuận", "pn"
+      ]
+    },
+    {
+      "name": "Quận 7",
+      "aliases": [
+        "quận 7", "quan 7", "q7", "q.7", "phú mỹ hưng", "phu my hung", "pmh", "tân phong", "tân quy"
+      ]
+    },
+    {
+      "name": "Quận 8",
+      "aliases": [
+        "quận 8", "quan 8", "q8", "q.8", "tạ quang bửu", "phạm thế hiển"
+      ]
+    },
+    {
+      "name": "Quận 10",
+      "aliases": [
+        "quận 10", "quan 10", "q10", "q.10"
+      ]
+    },
+    {
+      "name": "Bình Chánh",
+      "aliases": [
+        "bình chánh", "binh chanh", "huyện bình chánh", "bc", "trung sơn", "vĩnh lộc"
+      ]
+    },
+    {
+      "name": "Nhà Bè",
+      "aliases": [
+        "nhà bè", "nha be", "huyện nhà bè", "phước kiển", "nhơn đức"
+      ]
+    },
+    {
+      "name": "Củ Chi",
+      "aliases": [
+        "củ chi", "cu chi", "huyện củ chi"
+      ]
+    },
+    {
+      "name": "Bình Dương",
+      "aliases": [
+        "bình dương", "binh duong", "dĩ an", "di an", "thuận an", "thuan an",
+        "thủ dầu một", "thu dau mot", "tdm", "bến cát", "tân uyên"
+      ]
+    },
+    {
+      "name": "Đồng Nai",
+      "aliases": [
+        "đồng nai", "dong nai", "biên hòa", "bien hoa", "nhơn trạch", "nhon trach",
+        "long thành", "long thanh", "long bình", "long binh", "trảng bom"
+      ]
+    },
+    {
+      "name": "Bà Rịa - Vũng Tàu",
+      "aliases": [
+        "vũng tàu", "vung tau", "bà rịa", "ba ria", "brvt", "côn đảo", "con dao",
+        "phú mỹ", "hồ tràm", "ho tram", "long hải"
+      ]
+    },
+    {
+      "name": "Long An",
+      "aliases": [
+        "long an", "đức hòa", "duc hoa", "bến lức", "ben luc", "cần giuộc", "can giuoc", "tân an"
+      ]
+    }
+  ]
+}

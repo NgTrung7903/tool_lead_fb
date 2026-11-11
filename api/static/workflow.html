@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Đăng tin BĐS lên Facebook</title>
+<link rel="stylesheet" href="/assets/leads.css">
+<script src="/assets/common.js" defer></script>
+<script src="/assets/workflow.js" defer></script>
+</head>
+<body>
+<header class="topbar"><div class="topbar-inner">
+  <a class="brand" href="/"><span class="logo">B</span><div><strong>Công cụ BĐS Facebook</strong><small>Đăng tin · Tìm khách hàng</small></div></a>
+  <nav class="tabs"><a href="/" class="active">Đăng tin lên nhóm</a><a href="/leads">Khách hàng</a></nav>
+  <div class="fb-widget">
+    <span id="session-status" class="pill">Đang tải...</span>
+    <button id="quick-check" type="button" class="small" hidden>Kiểm tra kết nối</button>
+    <button id="login" class="small">Đăng nhập Facebook</button>
+    <details class="more"><summary title="Tùy chọn khác" aria-label="Tùy chọn khác">⋯</summary><div class="menu">
+      <button id="check-session" type="button">Kiểm tra lại kết nối Facebook</button>
+      <a href="#settings">Cài đặt</a>
+      <a href="/posting">Nguồn Revoland (bản cũ)</a>
+      <button id="logout" type="button" class="danger">Đăng xuất / xóa phiên Facebook</button>
+    </div></details>
+  </div>
+</div></header>
+
+<main>
+  <div class="intro">
+    <h2>Đăng tin bất động sản lên các nhóm Facebook</h2>
+    <p><span class="pill ok" id="build-label">Bản nạp link</span></p>
+    <p>Làm lần lượt 4 bước bên dưới. Tool chỉ đăng khi bạn bấm <b>Bắt đầu đăng</b>, và luôn dùng chính tài khoản Facebook của bạn.</p>
+  </div>
+
+  <ol class="stepper" id="stepper">
+    <li data-step="1"><span>1</span>Kết nối Facebook</li>
+    <li data-step="2"><span>2</span>Nạp bài đăng</li>
+    <li data-step="3"><span>3</span>Duyệt bài & chọn nhóm</li>
+    <li data-step="4"><span>4</span>Đăng & theo dõi</li>
+  </ol>
+
+  <div id="notice" role="status" aria-live="polite"></div>
+
+  <section class="banner" id="login-banner" hidden>
+    <div><h3>Bước 1 · Đăng nhập Facebook</h3><p>Bấm nút bên cạnh, một cửa sổ Facebook sẽ mở ra. Bạn tự nhập mật khẩu và mã OTP trên cửa sổ đó — tool không lưu mật khẩu của bạn.</p></div>
+    <button id="banner-login" class="big">Đăng nhập Facebook</button>
+  </section>
+
+  <section class="card" id="step-2">
+    <div class="section-head"><div class="step-title"><span class="step-no">2</span><h3>Nạp bài từ link</h3></div></div>
+
+    <form id="source-form">
+      <label for="source-url">Dán link bài bất động sản Revoland hoặc link dữ liệu JSON</label>
+      <div class="row">
+        <input id="source-url" type="url" placeholder="https://www.revoland.vn/.../ma-tin" required>
+        <button id="import" type="submit">Lấy tin & soạn nội dung</button>
+      </div>
+      <p class="hint">Tool đọc dữ liệu của đúng bài trong link, soạn nội dung từ tiêu đề, giá, vị trí, diện tích và mô tả, rồi tải ảnh để bạn duyệt. Với Revoland, hãy dán link chi tiết một bất động sản.</p>
+    </form>
+
+    <h4>Hoặc nạp file JSON bài đăng</h4>
+    <form id="json-form">
+      <label for="post-json">Chọn file JSON bài đăng</label>
+      <input id="post-json" type="file" accept=".json,application/json" required>
+      <p class="hint">Nạp danh sách bài và tải ảnh về máy để xem trước. Không giới hạn dung lượng file, số bài hay số ảnh mỗi bài. Ảnh có thể là link công khai (kể cả link qua Cloudflare), ảnh base64 hoặc đường dẫn file trên máy; tải ảnh từ link cần Internet.</p>
+      <label><input id="json-fast" type="checkbox" checked> Nạp nhanh: chỉ tải ảnh khi chọn xem bài</label>
+      <p class="hint">Tắt tùy chọn này nếu muốn tải sẵn toàn bộ ảnh để dùng offline.</p>
+      <div class="actions"><button id="json-import" type="submit">Nạp JSON & xem bài</button><a href="/assets/posts-example.json" download>Tải file JSON mẫu</a></div>
+      <p id="json-summary" role="status"></p>
+    </form>
+
+    <label for="listings" style="margin-top:4px">Chọn nhanh từ các bài tin đã có trên máy</label>
+    <div class="row"><input id="saved-search" placeholder="Tìm bài đã lưu theo tiêu đề" aria-label="Tìm bài đã lưu"><button id="saved-search-btn" type="button" class="secondary">Tìm bài</button></div>
+    <select id="listings"><option value="">Chưa có tin nào</option></select>
+    <div class="actions"><button id="saved-prev" type="button" class="secondary small">Trang trước</button><span id="saved-page" role="status"></span><button id="saved-next" type="button" class="secondary small">Trang sau</button><button id="saved-delete-current" type="button" class="secondary small" disabled>Xóa bài đang chọn</button></div>
+    <details id="saved-manager" class="plain"><summary>Chọn nhiều bài để xóa</summary>
+      <p class="hint">Xóa khỏi kho bài trên máy, không xóa bài đã đăng trên Facebook. Các đợt đăng đã lưu vẫn giữ nguyên.</p>
+      <label><input id="saved-check-page" type="checkbox"> Chọn tất cả bài trên trang này</label>
+      <div id="saved-delete-list" style="max-height:280px;overflow:auto"></div>
+      <div class="actions"><button id="saved-delete-selected" type="button" class="secondary">Xóa các bài đã chọn</button><button id="saved-delete-all" type="button" class="secondary">Xóa toàn bộ kho bài đã lưu</button></div>
+    </details>
+
+    <details class="plain" id="other-sources"><summary>Nguồn khác: tự soạn hoặc kho tin có sẵn</summary>
+    <details class="subcard" id="quinland-box">
+      <summary>Kho 250 bài tin BĐS TP.HCM có sẵn (QuinLand — có ảnh thật, đăng được ngay)</summary>
+      <p class="hint" style="margin-top:8px">Chọn nhanh bộ 8 bài tiêu biểu hoặc tìm bất kỳ căn nào trong 250 bất động sản TP.HCM để tải ảnh và đăng thử/đăng thật lên nhóm Facebook.</p>
+      <div class="actions">
+        <button id="quinland-pack" type="button">Nạp 8 bài BĐS tiêu biểu (Căn hộ, Nhà phố, Đất nền, Cho thuê)</button>
+      </div>
+      <label for="quinland-search">Hoặc tìm trong 250 căn QuinLand TP.HCM</label>
+      <div class="row">
+        <input id="quinland-search" placeholder="Gõ từ khóa: Vinhomes, Phú Mỹ Hưng, Thủ Đức, Quận 7, Cho thuê, Đất nền...">
+        <button id="quinland-search-btn" class="secondary" type="button">Tìm</button>
+      </div>
+      <label for="quinland-select">Chọn căn từ kho QuinLand</label>
+      <div class="row">
+        <select id="quinland-select"><option value="">Đang tải danh sách BĐS TP.HCM...</option></select>
+        <button id="quinland-import-one" class="secondary" type="button">Lấy căn này & tải ảnh</button>
+      </div>
+    </details>
+
+    <details class="subcard" id="manual-box">
+      <summary>Hoặc tự soạn bài tin riêng & chọn ảnh từ máy tính</summary>
+      <form id="manual-form">
+        <label for="manual-title">Tiêu đề tin đăng</label>
+        <input id="manual-title" maxlength="512" placeholder="Ví dụ: Bán căn hộ 2PN Vinhomes Grand Park, tầng trung thoáng mát" required>
+        <div class="grid-3">
+          <div><label for="manual-price">Giá bán / cho thuê (tuỳ chọn)</label><input id="manual-price" maxlength="256" placeholder="Ví dụ: 2,85 tỷ"></div>
+          <div><label for="manual-area">Diện tích m² (tuỳ chọn)</label><input id="manual-area" type="number" min="0" max="1000000" step="0.1" style="max-width:none" placeholder="Ví dụ: 72"></div>
+          <div><label for="manual-location">Khu vực / Địa chỉ (tuỳ chọn)</label><input id="manual-location" maxlength="512" placeholder="Ví dụ: TP. Thủ Đức, TP.HCM"></div>
+        </div>
+        <label for="manual-desc">Nội dung mô tả chi tiết & thông tin liên hệ</label>
+        <textarea id="manual-desc" rows="6" maxlength="50000" placeholder="Dán hoặc gõ nội dung bài đăng, đặc điểm nhà đất, pháp lý và số điện thoại liên hệ..." required></textarea>
+        <label for="manual-photos">Chọn ảnh từ máy tính (tối đa 12 ảnh JPG/PNG, không bắt buộc)</label>
+        <input id="manual-photos" type="file" accept="image/*" multiple>
+        <p id="manual-photo-hint" class="hint"></p>
+        <div class="actions"><button id="manual-submit" type="submit">Lưu tin & chuyển sang bước duyệt</button></div>
+      </form>
+    </details>
+
+    <details class="plain"><summary>Dành cho kỹ thuật / Xem thử giao diện offline</summary>
+      <p class="hint">Nút dữ liệu giả bên dưới chỉ dùng để kiểm thử giao diện offline, hệ thống sẽ <b>khóa đăng Facebook</b> đối với dữ liệu giả.</p>
+      <div class="actions">
+        <button id="demo" class="secondary small" type="button">Tải dữ liệu giả offline (không đăng Facebook)</button>
+        <a href="/demo/real-estate" target="_blank" rel="noopener">Xem website mẫu</a>
+        <a href="/assets/source-example.json" download>Tải file JSON mẫu</a>
+      </div>
+    </details>
+    </details>
+  </section>
+
+  <section class="card" id="step-3">
+    <div class="section-head"><div class="step-title"><span class="step-no">3</span><h3>Duyệt bài & chọn nhóm</h3></div></div>
+    <p id="source-info" class="muted">Hãy chọn một tin ở bước 2 để xem trước bài đăng.</p>
+    <div class="grid-2">
+      <div>
+        <label for="content">Nội dung bài đăng <span class="muted" style="font-weight:400">(bạn có thể sửa trực tiếp)</span></label>
+        <textarea id="content" rows="12" placeholder="Nội dung sẽ hiện ở đây sau khi chọn tin."></textarea>
+        <div class="counter" id="content-count"></div>
+        <button id="clean-content" type="button" class="secondary small">Làm sạch mã HTML</button>
+        <p class="hint">Bài nguồn được tự động bỏ thẻ HTML khi mở, giữ xuống dòng và nội dung chữ. Dùng nút này nếu bạn dán thêm nội dung có mã HTML.</p>
+        <label>Ảnh đính kèm <span class="muted" style="font-weight:400">(bấm vào ảnh để bỏ chọn)</span></label>
+        <div id="photos" class="photos"></div>
+      </div>
+      <div>
+        <div class="group-tools">
+          <label style="margin:12px 0 6px">Đăng vào nhóm <span id="group-count-badge" class="badge pending" style="margin-left:6px;vertical-align:middle">Đã chọn 0 / 100 nhóm</span></label>
+          <button type="button" id="select-all" class="link small">Chọn tối đa 100 nhóm</button>
+        </div>
+        <div id="groups" class="group-list"></div>
+        <p id="group-batch-hint" class="hint" style="margin:6px 0 8px">Lưu sẵn danh sách nhóm của bạn và tích chọn <b>tối đa 100 nhóm cho mỗi đợt đăng</b>.</p>
+        <details class="plain" id="add-group-box"><summary>+ Thêm nhóm Facebook (thêm từng nhóm hoặc dán nhiều nhóm)</summary>
+          <form id="group-form">
+            <label for="group-url">Link nhóm</label>
+            <input id="group-url" type="url" placeholder="https://www.facebook.com/groups/ten-nhom" required>
+            <label for="group-name">Tên gợi nhớ</label>
+            <input id="group-name" placeholder="Ví dụ: Nhà đất Thủ Đức" required>
+            <div class="actions"><button type="submit" id="add-group">Thêm nhóm</button></div>
+          </form>
+          <details class="plain" id="bulk-group-box"><summary>Thêm nhanh nhiều nhóm cùng lúc (dán danh sách)</summary>
+            <label for="bulk-groups">Mỗi dòng một nhóm: <i>Tên nhóm + link</i> (hoặc chỉ dán link)</label>
+            <textarea id="bulk-groups" rows="4" placeholder="Nhà đất Quận 7 https://www.facebook.com/groups/abc&#10;Mua bán BĐS TP.HCM https://www.facebook.com/groups/xyz"></textarea>
+            <div class="actions"><button type="button" id="bulk-import" class="secondary">Thêm danh sách</button></div>
+          </details>
+        </details>
+      </div>
+    </div>
+    <div class="actions">
+      <div><label for="min-delay">Nghỉ tối thiểu giữa hai nhóm (giây)</label><input id="min-delay" type="number" min="0" max="3600" step="1" value="300"></div>
+      <div><label for="max-delay">Nghỉ tối đa giữa hai nhóm (giây)</label><input id="max-delay" type="number" min="0" max="3600" step="1" value="300"></div>
+    </div>
+    <p class="notice warn" role="note">Thời gian nghỉ càng ngắn, nguy cơ bị Facebook hạn chế hoặc khóa tài khoản càng cao. Không có khoảng nghỉ nào bảo đảm tránh bị khóa. Nhập hai giá trị bằng nhau nếu muốn thời gian nghỉ cố định. Khoảng nghỉ được lưu riêng cho đợt đăng khi bấm Lưu & chuẩn bị đăng.</p>
+    <label class="check-line"><input id="reviewed" type="checkbox"><span>Tôi đã đọc lại nội dung, ảnh và thông tin tin đăng; tôi có quyền đăng tin này.</span></label>
+    <div class="actions">
+      <button id="create" class="big" disabled>Lưu & chuẩn bị đăng</button>
+      <span class="hint">Chưa gửi lên Facebook ở bước này.</span>
+    </div>
+  </section>
+
+  <section class="card" id="step-4">
+    <div class="section-head"><div class="step-title"><span class="step-no">4</span><h3>Đăng bài & theo dõi kết quả</h3></div><button id="refresh" class="secondary small">Làm mới</button></div>
+    <label for="campaigns">Chọn đợt đăng</label>
+    <select id="campaigns"><option value="">Chưa có đợt đăng</option></select>
+    <div id="mock-step4-warning" class="notice warn" hidden></div>
+    <p id="campaign-status" role="status"></p>
+    <div id="campaign-chips" class="summary-chips"></div>
+    <div class="actions">
+      <button id="execute" class="big" disabled>Bắt đầu đăng</button>
+      <button id="auto-check" class="secondary" hidden>Kiểm tra kết quả & các link đã đăng</button>
+      <button id="retry" class="secondary" disabled>Đăng lại nhóm lỗi / chưa rõ kết quả</button>
+      <button id="export-posts" class="secondary" disabled>Tải kết quả (Excel)</button>
+    </div>
+    <p class="hint">Mỗi đợt có tối đa 100 nhóm trong hàng chờ, đăng lần lượt từng nhóm theo khoảng nghỉ bạn chọn. Tool <b>tự lấy và lưu link từng bài khi xác nhận đăng thành công</b>. Sau đó, mở <b>tab Khách hàng</b> để chọn đợt đăng hoặc bài muốn lấy và lọc comment — không cần dán link. Giữ tool mở đến khi hàng chờ hoàn tất. Nếu cần đăng nhập hoặc xác minh Facebook, hàng chờ sẽ dừng.</p>
+    <div id="tasks"></div>
+
+    <p><a id="view-leads" hidden>Mở tab Khách hàng để lấy và lọc comment →</a></p>
+
+  </section>
+
+  <details class="card" id="settings">
+    <summary>Cài đặt</summary>
+    <p class="hint">Giới hạn số nhóm được chọn trong mỗi đợt. Lưu cài đặt cũng lưu khoảng nghỉ đang nhập ở bước 3 làm mặc định cho lần sau.</p>
+    <div class="actions">
+      <div><label for="max-groups">Tối đa nhóm / đợt (1–100)</label><input id="max-groups" type="number" min="1" max="100" value="100"></div>
+      <button id="save-settings" class="secondary">Lưu cài đặt</button>
+    </div>
+  </details>
+</main>
+<footer>Dữ liệu và phiên Facebook lưu trên máy tính này. Chỉ đăng vào các nhóm bạn được phép đăng.</footer>
+</body>
+</html>

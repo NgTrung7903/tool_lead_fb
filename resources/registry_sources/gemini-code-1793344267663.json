@@ -1,0 +1,128 @@
+{
+  "version": "1.3.0-fb-comment",
+  "intents": {
+    "contact_sharing": {
+      "weight": 45,
+      "description": "Khách chủ động để lại SĐT hoặc Zalo trên bình luận",
+      "keywords": [
+        "số mình", "sđt mình", "gọi số này", "alo mình số", "liên hệ số",
+        "zalo mình", "kb zalo số", "add zalo", "nhắn qua số", "gửi qua zalo số",
+        "so minh", "sdt minh", "zalo minh", "goi so nay"
+      ],
+      "regex_patterns": [
+        "(0|\\+84)(3|5|7|8|9)[0-9]{8}"
+      ],
+      "strength": "strong"
+    },
+    "direct_purchase": {
+      "weight": 40,
+      "description": "Nhu cầu mua, đặt cọc, chốt giao dịch trực tiếp",
+      "keywords": [
+        "cần mua", "muốn mua", "tìm mua", "mua căn này", "mua nhà", "mua đất",
+        "đặt cọc", "chốt cọc", "giữ chỗ", "lấy căn này", "chốt căn này",
+        "mua ở", "mua đầu tư", "cần mua gấp", "mua ngay", "mua luôn", "mua liền",
+        "chốt luôn", "chốt ngay", "chốt căn", "lấy luôn", "lấy căn", "cọc luôn", "cọc liền",
+        "want to buy", "interested in buying", "ready to buy", "i will buy", "i'll buy",
+        "mua luon", "mua lien", "chot luon", "chot ngay", "coc luon", "dat coc"
+      ],
+      "strength": "strong"
+    },
+    "viewing_request": {
+      "weight": 35,
+      "description": "Yêu cầu hẹn xem nhà thực tế",
+      "keywords": [
+        "xem nhà", "xem đất", "xem căn này", "đi xem", "qua xem", "ghé xem",
+        "dắt đi xem", "dẫn đi xem", "hẹn xem", "đặt lịch xem", "khi nào xem được",
+        "cuối tuần xem", "hôm nay xem", "mai xem", "xem thực tế", "coi nhà", "coi đất", "mở cửa xem",
+        "xem nha", "xem dat", "di xem", "coi nha", "coi dat", "hen xem"
+      ],
+      "strength": "strong"
+    },
+    "price_negotiation": {
+      "weight": 30,
+      "description": "Trả giá, thương lượng mức giá chốt",
+      "keywords": [
+        "có bớt không", "bớt được không", "có giảm không", "bớt chút", "bớt lộc",
+        "thương lượng không", "có thương lượng", "còn thương lượng", "trả giá",
+        "giá chốt", "giá cuối", "giá cuối cùng", "giá net", "fix giá", "bao sang tên", "làm việc chính chủ",
+        "tra gia", "bot duoc khong", "fix gia", "gia chot", "thuong luong"
+      ],
+      "strength": "strong"
+    },
+    "deep_inquiry": {
+      "weight": 25,
+      "description": "Hỏi thông tin kỹ thuật, pháp lý, vị trí, tài chính",
+      "keywords": [
+        "sổ hồng", "sổ đỏ", "shr", "sổ riêng", "pháp lý", "quy hoạch", "tranh chấp", "hoàn công", "thổ cư",
+        "hướng gì", "hướng nào", "xin hướng", "xem hướng", "hướng nhà", "nhà hướng",
+        "hướng căn", "căn hướng", "hướng cửa", "cửa hướng", "hướng ban công", "ban công hướng",
+        "diện tích", "bao nhiêu m2", "tầng mấy", "hẻm mấy mét", "hẻm xe hơi", "ô tô vào được không",
+        "vị trí ở đâu", "địa chỉ ở đâu", "đoạn nào", "gần chợ không", "ngập không",
+        "chiết khấu", "chính sách", "ngân hàng hỗ trợ", "vay được bao nhiêu", "vay bank", "tiến độ", "bàn giao", "nội thất",
+        "xin huong", "huong nha", "huong can", "huong cua", "huong ban cong", "so hong", "phap ly", "vi tri o dau"
+      ],
+      "strength": "moderate"
+    },
+    "custom_criteria": {
+      "weight": 25,
+      "description": "Khách hỏi tìm bất động sản theo nhu cầu/tài chính riêng dưới bình luận",
+      "keywords": [
+        "có căn nào", "còn căn nào", "có lô nào", "tầm giá", "tài chính tầm",
+        "cần tìm căn", "có căn 1pn", "có căn 2pn", "có căn 3pn", "còn lô góc", "có nhà trệt",
+        "co can nao", "con can nao", "tai chinh tam", "can tim can"
+      ],
+      "strength": "moderate"
+    },
+    "consultation_request": {
+      "weight": 20,
+      "description": "Yêu cầu inbox, tư vấn, gửi thông tin",
+      "keywords": [
+        "ib", "inb", "inbox", "check ib", "check inb", "rep ib", "ib mình", "ib em",
+        "tư vấn", "tư vấn giúp", "tư vấn em", "tư vấn mình", "tư vấn nhé", "hỗ trợ tư vấn",
+        "gửi thông tin", "xin thông tin", "xin tt", "gửi tt", "gửi vị trí", "xin định vị",
+        "gửi hình ảnh", "gửi sổ", "gửi bảng giá", "liên hệ lại", "gọi lại cho mình", "nhắn tin cho mình",
+        "tu van", "tu van giup", "gui thong tin", "check inbox", "goi lai"
+      ],
+      "strength": "moderate"
+    },
+    "pricing_inquiry": {
+      "weight": 15,
+      "description": "Hỏi giá cơ bản trên bình luận",
+      "keywords": [
+        "giá bao nhiêu", "giá bn", "bn tiền", "báo giá", "xin giá", "ib giá", "inb giá",
+        "giá cả thế nào", "giá sao", "tổng giá", "mấy tỷ", "mấy đồng", "rổ giá",
+        "gia bao nhieu", "gia bn", "bao gia", "xin gia", "ib gia", "gia sao"
+      ],
+      "strength": "weak"
+    },
+    "availability_check": {
+      "weight": 15,
+      "description": "Hỏi tình trạng còn hay đã bán",
+      "keywords": [
+        "còn không", "còn bán không", "bán chưa", "nhà còn không", "đất còn không", "căn này còn không",
+        "con khong", "con ban khong", "ban chua", "nha con khong"
+      ],
+      "strength": "weak"
+    },
+    "social_engagement": {
+      "weight": 10,
+      "description": "Bình luận chấm, hóng, quan tâm trên Facebook",
+      "keywords": [
+        "quan tâm", "qt", "q.tâm", "qtam", "chấm", "hóng", "note",
+        "quan tam", "cham", "hong"
+      ],
+      "strength": "weak"
+    },
+    "spam_and_negative": {
+      "weight": -100,
+      "description": "Lọc môi giới ké bài, quảng cáo dịch vụ hoặc khách tìm thuê",
+      "keywords": [
+        "ké", "ké chủ tus", "ké căn", "em có căn", "bên em có", "mình có căn",
+        "nhận ký gửi", "cần cho thuê", "cần thuê", "tìm thuê", "cho thuê không",
+        "hợp tác môi giới", "hoa hồng", "nhận thiết kế", "thi công nội thất", "hỗ trợ vay vốn", "chuyển nhà trọn gói",
+        "ke chu tus", "ben em co", "can thue", "cho thue", "ky gui", "thiet ke noi that"
+      ],
+      "strength": "negative"
+    }
+  }
+}
